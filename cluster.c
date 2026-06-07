@@ -1,11 +1,6 @@
-// Pengelompokkan mahasiswa terhadap media pembelajaran yang berpengaruh
-// pada ketertarikan mahasiswa Pendidikan Ilmu Komputer 2-A
-
-#include<stdio.h>
-#include<stdlib.h>
-#include<math.h>
-
-#include "data.c"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 #define jumlah_soal 12
 #define jumlah_data 30
@@ -13,7 +8,6 @@
 
 double jarak_euclidean(double *titik_a, double *titik_b) {
     double jumlah = 0;
-    //menghitung data nilai mahasiswa 1
     for (int i = 0; i < jumlah_soal; i++) {
         double selisih = titik_a[i] - titik_b[i];
         jumlah += selisih * selisih;
@@ -22,135 +16,154 @@ double jarak_euclidean(double *titik_a, double *titik_b) {
 }
 
 int main() {
-    int *pengelompokkan[jumlah_soal] = {
-        no1, no2, no3, no4, no5,
-        no6, no7, no8, no9, no10,
-        no11, no12
+
+    char nama[jumlah_data][10] = {
+        "MHS01","MHS02","MHS03","MHS04","MHS05",
+        "MHS06","MHS07","MHS08","MHS09","MHS10",
+        "MHS11","MHS12","MHS13","MHS14","MHS15",
+        "MHS16","MHS17","MHS18","MHS19","MHS20",
+        "MHS21","MHS22","MHS23","MHS24","MHS25",
+        "MHS26","MHS27","MHS28","MHS29","MHS30"
     };
 
-    //menukar jumlah mahasiswa dengan jumlah soal
-    double data_mhs[jumlah_data][jumlah_soal];
-
-    for (int s = 0; s < jumlah_soal; s++) {
-        for (int m = 0; m < jumlah_data; m++) {
-            data_mhs[m][s] = pengelompokkan[s][m];
-        }
-    }
+    double data_mhs[jumlah_data][jumlah_soal] = {
+        {4, 4, 5, 4, 3, 4, 2, 3, 4, 5, 2, 3}, {5, 5, 5, 5, 3, 4, 5, 4, 5, 5, 3, 3},
+        {4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 3, 4}, {4, 5, 3, 4, 5, 4, 3, 4, 5, 4, 4, 4},
+        {5, 5, 5, 5, 4, 4, 1, 4, 4, 4, 5, 4}, {5, 5, 2, 5, 3, 5, 5, 2, 5, 5, 5, 3},
+        {5, 4, 4, 5, 4, 4, 3, 4, 5, 5, 3, 4}, {5, 2, 4, 3, 4, 5, 2, 5, 5, 5, 5, 4},
+        {4, 5, 4, 5, 2, 3, 1, 4, 3, 4, 2, 5}, {2, 3, 1, 3, 4, 5, 3, 5, 2, 4, 2, 1},
+        {2, 4, 2, 1, 5, 4, 3, 5, 3, 2, 5, 1}, {4, 5, 3, 4, 4, 5, 4, 3, 4, 5, 5, 4},
+        {5, 5, 4, 4, 5, 3, 5, 4, 3, 4, 4, 4}, {5, 2, 4, 5, 4, 3, 2, 5, 4, 2, 3, 2},
+        {4, 3, 4, 3, 5, 3, 4, 4, 4, 5, 4, 5}, {4, 2, 3, 3, 3, 2, 3, 4, 3, 2, 3, 2},
+        {2, 4, 3, 4, 4, 3, 2, 2, 5, 4, 5, 4}, {3, 4, 5, 4, 5, 3, 4, 5, 4, 3, 5, 3},
+        {5, 4, 5, 5, 3, 4, 4, 4, 5, 4, 2, 2}, {3, 2, 3, 2, 4, 3, 4, 5, 3, 2, 3, 5},
+        {1, 4, 2, 3, 5, 1, 5, 2, 2, 3, 4, 5}, {3, 4, 5, 3, 4, 4, 5, 2, 3, 3, 4, 3},
+        {3, 2, 4, 3, 2, 3, 1, 4, 5, 2, 1, 2}, {2, 3, 2, 3, 3, 4, 3, 4, 5, 5, 4, 5},
+        {2, 3, 4, 3, 5, 4, 4, 2, 3, 4, 4, 3}, {1, 1, 1, 1, 1, 1, 2, 1, 5, 4, 2, 5},
+        {5, 5, 4, 5, 3, 1, 2, 2, 1, 4, 5, 1}, {5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}, {4, 3, 3, 5, 4, 4, 3, 5, 5, 1, 5, 4}
+    };
 
     double centroid[K_Means][jumlah_soal];
-    int cluster_awal[K_Means] = { 0, 14, 29 };
+    int cluster_awal[K_Means] = {0, 14, 29};
 
-    for (int i = 0; i < K_Means; i++) { // 3
-        int indeks_mhs = cluster_awal[i]; // 0 [0] 
-        for (int j = 0; j < jumlah_soal; j++) { // 12
-            centroid[i][j] = data_mhs[indeks_mhs][j];
+    for(int i = 0; i < K_Means; i++){
+        for(int j = 0; j < jumlah_soal; j++){
+            centroid[i][j] = data_mhs[cluster_awal[i]][j];
         }
     }
 
     int cluster[jumlah_data];
     int cluster_lama[jumlah_data];
 
-    for (int i = 0; i < jumlah_data; i++) {
+    for(int i = 0; i < jumlah_data; i++){
         cluster[i] = -1;
         cluster_lama[i] = -1;
     }
 
-    int iterasi = 0;
     int perubahan = 1;
+    int iterasi = 0;
 
-    //K_Means
-    while (perubahan) { // ketika true akan di ulang terus
+    // K-Means
+    while(perubahan){
         iterasi++;
 
-        for (int i = 0; i < jumlah_data; i++) {
+        for(int i = 0; i < jumlah_data; i++) {
             cluster_lama[i] = cluster[i];
         }
 
-        //Memasukkan mahasiswa ke cluster terdekat
-        for (int i = 0; i < jumlah_data; i++) {
-            double jarak_terkecil = jarak_euclidean(data_mhs[i], centroid[0]);
+        // Memasukan mahasiswa ke cluster terdekat
+        for(int i = 0; i < jumlah_data; i++){
+            double jarak_terdekat = jarak_euclidean(data_mhs[i], centroid[0]);
             int cluster_terdekat = 0;
-
-            for (int k = 1; k < K_Means; k++) {
-                double jarak = jarak_euclidean(data_mhs[i], centroid[k]);
-                if (jarak < jarak_terkecil) {
-                    jarak_terkecil = jarak;
+            for(int k = 1; k < K_Means ; k++){
+                double jarak = jarak_euclidean(data_mhs[i],centroid[k]);
+                if(jarak < jarak_terdekat){
+                    jarak_terdekat = jarak;
                     cluster_terdekat = k;
                 }
-                cluster[i] = cluster_terdekat;
             }
+            cluster[i] = cluster_terdekat;
         }
 
         //Geser pusat kelompok berdasarkan rata2 nilai anggotanya
-        for (int k = 0; k < K_Means; k++) {
-            int jumlah_anggota = 0;
+        for(int k = 0; k < K_Means;k++){
             double total[jumlah_soal];
-
-            for (int s = 0; s < jumlah_soal; s++) {
-                total[s] = 0;
-            }
-
-            for (int i = 0; i < jumlah_data; i++) {
-                if (cluster[i] == k) {
-                    jumlah_anggota++;
-                    for (int s = 0; s < jumlah_soal; s++) {
+            int anggota = 0;
+            for(int i = 0; i < jumlah_data; i++){
+                if(cluster[i] == k){
+                    anggota++;
+                    for(int s = 0; s < jumlah_soal; s++)
                         total[s] += data_mhs[i][s];
-                    }
-                } else {
-                    jumlah_anggota = jumlah_anggota;
                 }
             }
-
-            if (jumlah_anggota > 0) {
-                for (int s = 0; s < jumlah_soal; s++) {
-                    centroid[k][s] = total[s] / jumlah_anggota;
-                }
-            } else {
-                for (int s = 0; s < jumlah_soal; s++) {
-                    centroid[k][s] = centroid[k][s];
-                }
+            if(anggota > 0){
+                for(int s = 0; s < jumlah_soal; s++)
+                    centroid[k][s] = total[s]/anggota;
             }
         }
 
         // validasi untuk posisi mahasiswa di dalam cluster
         perubahan = 0;
-        for (int i = 0; i < jumlah_data; i++) {
-            if (cluster[i] !=  cluster_lama[i]) {
+        for(int i = 0; i < jumlah_data; i++){
+            if(cluster[i] != cluster_lama[i]){
                 perubahan = 1;
                 break;
-            } else {
-                perubahan = perubahan;
             }
         }
 
-        //menampilkan cluster
-        for (int k = 0; k < K_Means; k++) {
-            printf("Cluster %d: ", k + 1);
-            
-            int mhs_terakhir = -1;
-            for (int i = 0; i < jumlah_data; i++) {
-                if (cluster[i] == k) {
-                    mhs_terakhir = i; 
-                } else {
-                    mhs_terakhir = mhs_terakhir;
-                }
-            }
+        printf("\nIterasi %d\n", iterasi);
+        printf("\n========================================\n");
+        printf("          ITERASI KE-%d\n", iterasi);
+        printf("========================================\n");
 
-            for (int i = 0; i < jumlah_data; i++) {
-                if (cluster[i] == k) {
-                    if (i == mhs_terakhir) {
-                        printf("Mahasiswa %d.", i + 1);
-                    } else {
-                        printf("Mahasiswa %d, ", i + 1);
-                    }
-                } else {
-                    int skip = 0;
-                }
-            }
-            printf("\n");
+        for(int k = 0; k < K_Means; k++){
+
+            int first = 1;
+            int anggota_cluster = 0;
+
+             printf("Cluster %d\n", k + 1);
+             printf("Anggota : ");
+
+             for(int i = 0; i < jumlah_data; i++){
+                 if(cluster[i] == k){
+                 anggota_cluster++;
+                 if(!first)
+                     printf(", ");
+                     printf("%s", nama[i]);
+                 first = 0;
         }
     }
-    printf("Selesai! Total iterasi: %d\n\n", iterasi);
-    
-    return 0;
+
+    printf("\nJumlah anggota : %d mahasiswa\n", anggota_cluster);
+    printf("----------------------------------------\n");
 }
+printf("\n");
+printf("========================================\n");
+printf("       HASIL K-MEANS TELAH SELESAI\n");
+printf("========================================\n");
+printf("Total Iterasi : %d\n", iterasi);
+printf("Jumlah Cluster: %d\n", K_Means);
+printf("Total Data    : %d Mahasiswa\n", jumlah_data);
+printf("========================================\n");
+
+for(int k = 0; k < K_Means; k++){
+
+    int jumlah = 0;
+
+    for(int i = 0; i < jumlah_data; i++){
+        if(cluster[i] == k)
+            jumlah++;
+    }
+
+    printf("Cluster %d -> %2d Mahasiswa\n", k + 1, jumlah);
+}
+
+printf("========================================\n");
+printf("Program selesai.\n");
+    }
+
+    printf("Selesai! Total iterasi: %d\n",iterasi);
+    return 0;
+} 
+ini yg dah di edit dan data dari gform @241201135525959
