@@ -166,4 +166,3 @@ printf("Program selesai.\n");
     printf("Selesai! Total iterasi: %d\n",iterasi);
     return 0;
 } 
-ini yg dah di edit dan data dari gform @241201135525959
